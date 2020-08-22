@@ -1,26 +1,26 @@
-<template>
+<template >
   <div id="app">
-        <div class="center grid">
+    <div class="app-app center grid">
       <vs-row>
-      <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
-        <Home/>
-      </vs-col>
-    </vs-row>
+        <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
+          <Home />
+        </vs-col>
+      </vs-row>
     </div>
   </div>
 </template>
 
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
-import Home from './components/Home'
+import Home from "./components/Home";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     //HelloWorld
-    Home
-  }
-}
+    Home,
+  },
+};
 </script>
 
 <style>
@@ -29,7 +29,14 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #2c3e50;  
+  
+  min-height: 90vh;
+  width: 100%;
+  height: auto;
+}
+
+.app-app {
+  background-color: #2c3e50;
 }
 </style>
