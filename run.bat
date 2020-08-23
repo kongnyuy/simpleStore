@@ -1,3 +1,3 @@
-set FLASK_APP=fapp
-set FLASK_ENV=development
-flask run
+REM Servce the application
+cd "src\backend"
+serve.bat

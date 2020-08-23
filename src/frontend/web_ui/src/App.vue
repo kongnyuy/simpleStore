@@ -1,11 +1,12 @@
 <template >
   <div id="app">
-    <div class="app-app center grid">
-      <vs-row>
+    <div class="app-app">
+      <Home />
+      <!-- <vs-row>
         <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12">
           <Home />
         </vs-col>
-      </vs-row>
+      </vs-row> -->
     </div>
   </div>
 </template>

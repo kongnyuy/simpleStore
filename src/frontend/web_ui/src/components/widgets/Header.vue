@@ -14,7 +14,9 @@
       id="tab.label"
       v-for="tab in tabs"
       :key="tab.label"
-    >{{tab.label}}</vs-navbar-item>
+    >
+      <router-link to="/foo">{{tab.label}}</router-link>
+    </vs-navbar-item>
     <template #right>
       <div v-show="showAdminPanel == 'false'">
         <vs-button flat>Login</vs-button>
