@@ -39,13 +39,13 @@
         </template>
         Home
       </vs-sidebar-item>
-      <vs-sidebar-item id="articles">
+      <vs-sidebar-item id="articles" @click="$router.push('articles')">
         <template #icon>
           <i class="bx bx-grid-alt"></i>
         </template>
         Articles 
       </vs-sidebar-item>
-      <vs-sidebar-item id="store_shelfs">
+      <vs-sidebar-item id="store_shelfs" @click="$router.push('shelfs')">
         <template #icon>
           <i class="bx bxs-music"></i>
         </template>
@@ -61,13 +61,13 @@
           </vs-sidebar-item>
         </template>
 
-        <vs-sidebar-item id="inventory">
+        <vs-sidebar-item id="inventory" @click="$router.push('inventory')">
           <template #icon>
             <i class="bx bxl-instagram"></i>
           </template>
           Inventory
         </vs-sidebar-item>
-        <vs-sidebar-item id="store_shelfs">
+        <vs-sidebar-item id="store_shelfs" @click="$router.push('shelfs')">
           <template #icon>
             <i class="bx bxl-twitter"></i>
           </template>
