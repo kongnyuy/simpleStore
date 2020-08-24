@@ -41,13 +41,13 @@
       </vs-sidebar-item>
       <vs-sidebar-item id="articles" @click="$router.push('articles')">
         <template #icon>
-          <i class="bx bx-grid-alt"></i>
+          <i class='bx bxs-shapes' ></i>
         </template>
         Articles 
       </vs-sidebar-item>
       <vs-sidebar-item id="store_shelfs" @click="$router.push('shelfs')">
         <template #icon>
-          <i class="bx bxs-music"></i>
+          <i class='bx bxs-shopping-bags' ></i>
         </template>
          Store shelfs
       </vs-sidebar-item>
@@ -63,13 +63,13 @@
 
         <vs-sidebar-item id="inventory" @click="$router.push('inventory')">
           <template #icon>
-            <i class="bx bxl-instagram"></i>
+            <i class='bx bxs-buildings' ></i>
           </template>
           Inventory
         </vs-sidebar-item>
         <vs-sidebar-item id="store_shelfs" @click="$router.push('shelfs')">
           <template #icon>
-            <i class="bx bxl-twitter"></i>
+            <i class='bx bxs-store-alt' ></i>
           </template>
           Articles in store(shelfs)
         </vs-sidebar-item>

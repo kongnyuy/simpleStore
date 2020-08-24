@@ -1,5 +1,6 @@
 <template>
   <div class="app-inventory">
+    <PageTitle title="Articles in Stock"/>
     <section class="aggregates"></section>
     <section class="all-inv">
       <div class="center">
@@ -97,9 +98,13 @@
 </template>
 
 <script>
+import PageTitle from '../widgets/PageTitle'
+
 export default {
   name: "Inventory",
-  components: {},
+  components: {
+    PageTitle
+  },
   data: () => ({
     editActive: false,
         edit: null,
