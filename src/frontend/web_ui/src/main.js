@@ -9,11 +9,18 @@ import VueRouter from 'vue-router'
 import Vuesax from 'vuesax'
 import 'vuesax/dist/vuesax.css'
 
+//icons
+/* import Boxicon from 'boxicons' */
+import 'boxicons/css/boxicons.css'
+/* import boxicons from 'boxicons' */
+
 import router from './router'
+
 
 
 Vue.config.productionTip = false
 //used
+/* Vue.use(boxicons) */
 Vue.use(Vuex)
 Vue.use(VueRouter)
 Vue.use(Vuesax, {
