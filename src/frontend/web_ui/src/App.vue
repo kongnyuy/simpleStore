@@ -38,6 +38,6 @@ export default {
 }
 
 .app-app {
-  background-color: #2c3e50;
+  /* background-color: #2c3e50; */
 }
 </style>

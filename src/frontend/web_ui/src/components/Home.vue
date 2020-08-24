@@ -247,20 +247,21 @@ export default {
  }
 
  .app-head-area {
-   background-color: red;
+   /* background-color: red; */
  }
 
  #tv {
    width: 100%;
-   min-height: 0em;
-   height: 20em;
-   background-color: pink;
+   min-height: 90vh;
+   height: auto;
+   /* background-color: pink; */
    margin: 4em 0 0 0;
  }
 
  #vrouter {
    width: inherit;
    height: inherit;
-   background-color: blue;
+   min-min-height: 90vh;
+   /* background-color: blue; */
  }
 </style>
