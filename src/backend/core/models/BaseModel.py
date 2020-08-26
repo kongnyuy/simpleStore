@@ -1,7 +1,8 @@
 from peewee import *
-db = SqliteDatabase(':memory:')
+from backend.core.persistence.db import Database
+#db = SqliteDatabase(':memory:')
 
 
 class BaseModel(Model):
     class Meta:
-        database = db
+        database = Database.get_db_handle()

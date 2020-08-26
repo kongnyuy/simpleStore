@@ -1,7 +1,7 @@
 #from backend.app import app
 from backend.app import app
 import json
-from backend.core.models.Article import *
+#from backend.core.models.Article import *
 
 
     # a simple page that says hello
@@ -17,5 +17,5 @@ def getAllArticles():
 @app.route('/articles/<int:articleId>')
 def getArticle(articleId: int = -1):
 
-    a = Article("black keyboard",1500, "DELL-KB01", "DELL", 100)
+    #a = Article("black keyboard",1500, "DELL-KB01", "DELL", 100)
     return f"[{articleId}] Your article"

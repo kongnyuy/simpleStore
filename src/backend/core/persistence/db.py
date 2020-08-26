@@ -38,7 +38,7 @@ class Database:
 
     @staticmethod
     def close_db(e=None):
-        db = g.pop('db', None) #TODO ORM db now returned, CAUTION!
+        db = g.pop('db', None)  #TODO ORM db now returned, CAUTION!
 
         if db is not None:
             db.close()
@@ -51,6 +51,13 @@ class Database:
         #with current_app.open_resource('store.db.schema.sql') as f:
         with open(current_app.config['SCHEMA_PATH'], 'r') as f:
             db.executescript(f.read().decode('utf8'))
+
+    @staticmethod
+    def get_orm_db_handle():
+        with current_app.app_context():
+            if 'db' not in g:
+                g.db = Database.get_db_handle()
+            return g.db
 
     @staticmethod
     @click.command('init-db')
