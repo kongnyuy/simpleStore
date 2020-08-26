@@ -34,7 +34,7 @@ def create_app(test_config=None):
     except OSError as err:
         print(f"OS error> {err}", file=sys.stderr)
         print("Flask requires instance folder")
-        sys.exit(1)    
+        #sys.exit(1)    
 
     return app
 
