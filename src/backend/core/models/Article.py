@@ -41,7 +41,7 @@ class Article(IArticle, BaseModel):
                  quatity: int = 0,
                  category: Category = None,
                  kind: Kind = None,
-                 image: str = "article.png"):
+                 image: str = "article-def-image.png"):
         super().__init__(name, cost, model, maker, quatity)
         self.category = category
         self.kind = kind

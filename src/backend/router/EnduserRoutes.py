@@ -17,5 +17,5 @@ def getAllArticles():
 @app.route('/articles/<int:articleId>')
 def getArticle(articleId: int = -1):
 
-    #a = Article()
+    a = Article("black keyboard",1500, "DELL-KB01", "DELL", 100)
     return f"[{articleId}] Your article"
