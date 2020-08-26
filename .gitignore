@@ -1,7 +1,6 @@
 venv/
 .appVenv/
 src/frontend/web_ui/node_modules/
-src/
 
 *.pyc
 __pycache__/
