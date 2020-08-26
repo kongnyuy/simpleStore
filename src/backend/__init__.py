@@ -1,7 +1,7 @@
-import os
+import os,sys
 import json
 from flask import Flask, render_template
-import configparser
+from .config import *
 
 
 def create_app(test_config=None):
@@ -9,8 +9,11 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'store.sqlite'),
+        #DATABASE=os.path.join(app.instance_path, 'store.sqlite'),
+        DATABASE=db_name
     )
+
+    
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -22,8 +25,10 @@ def create_app(test_config=None):
     # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
-    except OSError:
-        pass
+    except OSError as err:
+        print(f"OS error> {err}", file=sys.stderr)
+        print("Flask requires instance folder")
+        sys.exit(1)    
 
     return app
 

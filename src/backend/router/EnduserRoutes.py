@@ -17,5 +17,5 @@ def getAllArticles():
 @app.route('/articles/<int:articleId>')
 def getArticle(articleId: int = -1):
 
-
+    #a = Article()
     return f"[{articleId}] Your article"
