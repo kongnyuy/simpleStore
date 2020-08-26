@@ -1,5 +1,11 @@
-from backend.core.models.Category import Category
 from peewee import *
+
+from backend.core.models.Category import Category, Kind
+from backend.config import db_name
+from .BaseModel import BaseModel
+
+db = SqliteDatabase(db_name)
+
 
 class IArticle:
     def __init__(self, name:str, cost: int, model: str, maker: str,quatity: int = 0):
@@ -12,8 +18,20 @@ class IArticle:
 
 
 
-class Article(IArticle, Model):
-    #name = CharField()
+class Article(IArticle, BaseModel):
+    id = AutoField()
+    name = CharField()
+    cost = BigIntegerField
+    model = CharField()
+    maker = CharField()
+    quantity = IntegerField()
+    category = ForeignKeyField(Category, backref="articles")
+    kind = ForeignKeyField(Kind, backref="kinds")
+
+
+    class Meta:
+        database = db
+        table_name = "Articles"
 
     def __init__(self,
                  name: str,
@@ -22,9 +40,9 @@ class Article(IArticle, Model):
                  maker: str,
                  quatity: int = 0,
                  category: Category = None,
-                 sub_category: Category = None,
+                 kind: Kind = None,
                  image: str = "article.png"):
         super().__init__(name, cost, model, maker, quatity)
         self.category = category
-        self.sub_category = sub_category
+        self.kind = kind
         self.image = image

@@ -13,6 +13,9 @@ def getAppConfig():
 def get_data_rep():
     return _config['DATABASE']['data_repository']
 
+def db_name():
+    return _config['DATABASE']['database_file']
+
 
 
 if __name__ == "__main__":

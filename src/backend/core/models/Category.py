@@ -1,4 +1,9 @@
-class Category:
+from .BaseModel import BaseModel
+
+class Category(BaseModel):
+    class Meta:
+        table_name = "Categories"
+
     def __init__(self, label: str, description: str = "Item category"):
         self.id = -1
         self.label = label
@@ -12,3 +17,7 @@ class Category:
     def description(self):
         return self.description
 
+
+
+class Kind(Category):
+    pass
