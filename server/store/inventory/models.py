@@ -2,18 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-
-class Entry(models.Model):
-    user = models.ForeignKey(User)
-    pattern = models.CharField(max_length=255)
-    test_string = models.CharField(max_length=255)
-    date_added = models.DateTimeField(default=timezone.now)
-
-    class Meta:
-        verbose_name_plural = 'entries'
-
-
 # Create your models here.
+
 
 class User(models.Model):
     id = models.AutoField(primary_key=True)
@@ -26,7 +16,9 @@ class User(models.Model):
 
 class UserSession(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, db_column='user_id')
+    user = models.ForeignKey(User,
+                             db_column='user_id',
+                             on_delete=models.CASCADE)
     startTime = models.DateTimeField(default=timezone.now)
     endTime = models.DateTimeField(default=timezone.now)
 
@@ -61,12 +53,18 @@ class ArticleCategory(models.Model):
 class Article(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    model = models.CharField()
-    maker = models.CharField()
-    cost = models.DecimalField()
+    model = models.CharField(max_length=150)
+    maker = models.CharField(max_length=150)
+    cost = models.DecimalField(decimal_places=2, max_digits=10)
     quantity = models.IntegerField()
-    cateory = models.ForeignKey(ArticleCategory, db_column='category_id')
-    kind = models.ForeignKey(ArticleKind, db_column='article_kind_id')
+    category = models.ForeignKey(ArticleCategory,
+                                 null=True,
+                                 db_column='category_id',
+                                 on_delete=models.SET_NULL)
+    kind = models.ForeignKey(ArticleKind,
+                             db_column='article_kind_id',
+                             null=True,
+                             on_delete=models.SET_NULL)
     dateAdded = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -74,7 +72,11 @@ class Article(models.Model):
         verbose_name_plural = 'articles'
 
 
-class StoreArticle(Article):
+class StoreArticle(models.Model):    
+    article = models.OneToOneField(Article,                                
+                                db_column='article_id',
+                                on_delete=models.DO_NOTHING)
+    count = models.IntegerField(default=0)
     shelf = models.CharField(max_length=155)
 
     class Meta:
@@ -84,7 +86,17 @@ class StoreArticle(Article):
 
 class Basket(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, db_column='user_id')
-    article = models.ForeignKey(StoreArticle,db_column='article_id')
-    session = models.ForeignKey(UserSession,db_column='session_id')
-    dateCreated = models.DateTimeField(default=timezone.now, db_column='date_created')
+    user = models.ForeignKey(User,
+                             db_column='user_id',
+                             on_delete=models.CASCADE)
+    article = models.ForeignKey(Article,
+                                db_column='article_id',
+                                null=True,
+                                on_delete=models.SET_NULL)
+    articleCount = models.IntegerField(default=0)
+    session = models.ForeignKey(UserSession,
+                                db_column='session_id',
+                                on_delete=models.CASCADE)
+    isAvail = models.BooleanField()
+    dateCreated = models.DateTimeField(default=timezone.now,
+                                       db_column='date_created')
