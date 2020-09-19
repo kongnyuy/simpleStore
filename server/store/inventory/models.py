@@ -26,7 +26,7 @@ class User(models.Model):
 
 class UserSession(models.Model):
     id = models.AutoField(primary_key=True)
-    userId = models.ForeignKey(User)
+    user = models.ForeignKey(User, db_column='user_id')
     startTime = models.DateTimeField(default=timezone.now)
     endTime = models.DateTimeField(default=timezone.now)
 
@@ -65,8 +65,8 @@ class Article(models.Model):
     maker = models.CharField()
     cost = models.DecimalField()
     quantity = models.IntegerField()
-    cateory = models.ForeignKey(ArticleCategory)
-    kind = models.ForeignKey(ArticleKind)
+    cateory = models.ForeignKey(ArticleCategory, db_column='category_id')
+    kind = models.ForeignKey(ArticleKind, db_column='article_kind_id')
     dateAdded = models.DateTimeField(default=timezone.now)
 
     class Meta:
