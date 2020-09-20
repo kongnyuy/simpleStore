@@ -1,0 +1,43 @@
+{% load static from static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    {% block meta %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    {% endblock meta %}
+    {% block styles %}
+    <link href="https://unpkg.com/vuesax@4.0.1-alpha.16/dist/vuesax.min.css" rel="stylesheet">
+    <link href="{% static "entries/css/main.css" %}" rel="stylesheet">
+    {% endblock styles %}
+    <title> {% block title %}Title{% endblock title %} </title>
+</head>
+
+<body>
+    <div id="app">
+        <vs-button>Hello World</vs-button>
+    </div>
+    <div id="page-content">
+        {% block page-content %}
+        {% endblock page-content %}
+    </div>
+    <div id="footer">
+        {% block footer %}
+        {% endblock footer %}
+    </div>
+    {%block scripts %}
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuesax@4.0.1-alpha.16/dist/vuesax.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app'
+        })
+    </script>
+    {% endblock scripts %}
+</body>
+
+</html>

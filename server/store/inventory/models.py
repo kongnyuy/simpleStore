@@ -8,6 +8,8 @@ from django.utils import timezone
 class User(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'app_users'
@@ -21,6 +23,8 @@ class UserSession(models.Model):
                              on_delete=models.CASCADE)
     startTime = models.DateTimeField(default=timezone.now)
     endTime = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'users_sessions'
@@ -32,6 +36,8 @@ class ArticleKind(models.Model):
     id = models.AutoField(primary_key=True)
     label = models.CharField(max_length=100)
     description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'article_kinds'
@@ -44,6 +50,8 @@ class ArticleCategory(models.Model):
     label = models.CharField(max_length=100)
     description = models.TextField()
     dateAdded = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'article_categories'
@@ -66,18 +74,22 @@ class Article(models.Model):
                              null=True,
                              on_delete=models.SET_NULL)
     dateAdded = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'articles_stock'
         verbose_name_plural = 'articles'
 
 
-class StoreArticle(models.Model):    
-    article = models.OneToOneField(Article,                                
-                                db_column='article_id',
-                                on_delete=models.DO_NOTHING)
+class StoreArticle(models.Model):
+    article = models.OneToOneField(Article,
+                                   db_column='article_id',
+                                   on_delete=models.DO_NOTHING)
     count = models.IntegerField(default=0)
     shelf = models.CharField(max_length=155)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'articles_store'
@@ -100,3 +112,5 @@ class Basket(models.Model):
     isAvail = models.BooleanField()
     dateCreated = models.DateTimeField(default=timezone.now,
                                        db_column='date_created')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
