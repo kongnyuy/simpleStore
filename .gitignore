@@ -270,4 +270,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
 /j/ACE-J/nbproject/private/
+server/.env

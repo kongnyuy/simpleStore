@@ -34,6 +34,23 @@ public class Utils {
             return "LEVEL_" + this.level;
         }
         
+        public static LEVELS of(int l){
+            switch(l){
+                case 1: 
+                    return LEVEL_1;
+                case 2: 
+                    return LEVEL_2;
+                case 3: 
+                    return LEVEL_3;
+                case 4: 
+                    return LEVEL_4;
+                case 5: 
+                    return LEVEL_5;
+                default:
+                    return UNKNOWN;
+            }            
+        }
+        
         
         
     }

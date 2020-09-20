@@ -12,8 +12,8 @@ import ace.j.Utils.LEVELS;
  * @author Tata
  */
 public class Student {
-    private String surname;
     private String firstName;
+    private String surname;    
     private LEVELS level;
     private String matricule;
     private String speciality;
@@ -21,27 +21,22 @@ public class Student {
     public Student() {
     }
 
-    public Student(String surname, String firstName, LEVELS level, String matricule) {
-        this.surname = surname;
+    public Student(String firstName, String surname, LEVELS level, String matricule, String speciality) {
         this.firstName = firstName;
-        this.level = level;
-        this.matricule = matricule;
-    }
-
-    public Student(String surname, String firstName, LEVELS level, String matricule, String speciality) {
         this.surname = surname;
-        this.firstName = firstName;
         this.level = level;
         this.matricule = matricule;
         this.speciality = speciality;
     }
 
-    public Student(String surname, String firstName, String matricule, String speciality) {
-        this.surname = surname;
-        this.firstName = firstName;
-        this.matricule = matricule;
-        this.speciality = speciality;
+
+
+    @Override
+    public String toString() {
+        return "Student{" + "firstName=" + firstName + ", surname=" + surname + ", level=" + level + ", matricule=" + matricule + ", speciality=" + speciality + '}';
     }
+    
+    
     
     
     

@@ -37,7 +37,7 @@ public class Cylinder {
     
     
     public double volume(){
-        return (4/3) * Math.PI * Math.pow(this.radius, 3);
+        return baseCircleArea() * this.height;
     }
     
     public double baseCircleArea(){

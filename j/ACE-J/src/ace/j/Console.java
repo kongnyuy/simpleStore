@@ -24,6 +24,8 @@
 package ace.j;
 
 import ace.j.humans.Student;
+import ace.j.Utils.LEVELS;
+
 import java.io.InputStream;
 import java.util.Scanner;
 import java.io.OutputStream;
@@ -35,30 +37,29 @@ import java.util.regex.Pattern;
  * @author Tata
  */
 public class Console {
-    
+
     private Scanner inScanner;
     private InputStream in;
     private OutputStream out;
-    private Pattern studPattern = Pattern.compile("/()/");
+    private Pattern studPattern = Pattern.compile("\\w*");
 
     public Console() {
-        this.inScanner = new Scanner(System.in);        
-        
+        this.inScanner = new Scanner(System.in);
+
     }
-    
-    public Student addStudent(){
-        
-        if(this.inScanner != null){
+
+    public Student addStudent() {
+        System.out.println("New Student");
+        System.out.println("Format: surname, firstName, level, matricule, speciality");
+        System.out.println("Example: Mida, John higs, 3, 39ssh30f09, Accountant\n");
+        if (this.inScanner != null) {
             String studTxt = inScanner.nextLine();
-            Matcher matcher = studPattern.matcher(studTxt);
-            if(matcher.matches()){
-                String[] sa = studPattern.split(studTxt);
-                
-            }
+            String[] sa = studTxt.split(",");
+            return new Student(sa[0].trim(), sa[1].trim(), LEVELS.of(Integer.parseInt(sa[2].trim())), sa[3].trim(), sa[4].trim());
+
         }
-        
+
         return null;
     }
-    
-    
+
 }

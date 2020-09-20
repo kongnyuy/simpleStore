@@ -5,6 +5,8 @@
  */
 package ace.j;
 
+import ace.j.humans.Student;
+
 /**
  *
  * @author Tata
@@ -17,6 +19,10 @@ public class ACEJ {
     public static void main(String[] args) {
         // TODO code application logic here
         System.out.println("hello world");
+        
+        Console console = new Console();
+        Student s = console.addStudent();
+        System.out.println(s);
     }
     
 }
