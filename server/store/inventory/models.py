@@ -11,6 +11,9 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         db_table = 'app_users'
         verbose_name_plural = 'users'
@@ -26,6 +29,9 @@ class UserSession(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f'{self.user.name}-sid-{self.id}'
+
     class Meta:
         db_table = 'users_sessions'
         verbose_name_plural = 'sessions'
@@ -38,6 +44,9 @@ class ArticleKind(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.label
 
     class Meta:
         db_table = 'article_kinds'
@@ -52,6 +61,9 @@ class ArticleCategory(models.Model):
     dateAdded = models.DateTimeField(default=timezone.now)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.label
 
     class Meta:
         db_table = 'article_categories'
@@ -77,6 +89,9 @@ class Article(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         db_table = 'articles_stock'
         verbose_name_plural = 'articles'
@@ -90,6 +105,9 @@ class StoreArticle(models.Model):
     shelf = models.CharField(max_length=155)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.article.name}-{self.shelf}'
 
     class Meta:
         db_table = 'articles_store'
@@ -114,3 +132,6 @@ class Basket(models.Model):
                                        db_column='date_created')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.user.name}-{self.session.name}'

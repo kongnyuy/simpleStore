@@ -57,9 +57,9 @@ urlpatterns = [
     path('be/akinds/', all_akinds, name="all_kinds"),
     path('be/categories/', all_categories, name='all_categories'),
     path('be/usessions/', all_user_sessions, name="usessions"),
-    path('be/ausers', all_app_users, name="ausers"),
-    path('be/baskets', all_baskets, name="baskets"),
-    path('be/sarticles', all_store_articles, name="sarticles")
-    
+    path('be/ausers/', all_app_users, name="ausers"),
+    path('be/baskets/', all_baskets, name="baskets"),
+    path('be/sarticles/', all_store_articles, name="sarticles")
+
 
 ]
