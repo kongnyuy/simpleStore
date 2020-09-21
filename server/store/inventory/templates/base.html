@@ -11,7 +11,7 @@
     {% block styles %}
     <!-- <link href="https://unpkg.com/vuesax@4.0.1-alpha.16/dist/vuesax.min.css" rel="stylesheet"> -->
     <link href="{% static "inventory/styles/css/bulma.css" %}" rel="stylesheet">
-    <link href="{% static "inventory/styles/css/vuesax.min.css" %}" rel="stylesheet">    
+    <!-- <link href="{% static "inventory/styles/css/vuesax.min.css" %}" rel="stylesheet">     -->
     <link href="{% static "inventory/styles/css/gg.css" %}" rel="stylesheet">
     <link href="{% static "inventory/styles/css/app.css" %}" rel="stylesheet">
 
@@ -21,72 +21,88 @@
 </head>
 
 <body>
-    <section id="main-section">
+    <section id="app">
         <header>
-                    <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
-                        <div class="navbar-brand">
-                            <a class="navbar-item" href="https://bulma.io">
-                                <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-                            </a>
-                    
-                            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-                                data-target="navbarBasicExample">
-                                <span aria-hidden="true"></span>
-                                <span aria-hidden="true"></span>
-                                <span aria-hidden="true"></span>
-                            </a>
-                        </div>
-                    
-                        <div " class="navbar-menu">
-                            <div class="navbar-start">
-                                <a href="/" class="navbar-item">
-                                    Shop 
-                                    <i class="menu-icon gg-shopping-bag"></i>
-                                </a>
-                                <a href="/stock" class="navbar-item">
-                                    Inventory
-                                    <i class="menu-icon gg-airplane"></i>
-                                </a>
-                                <div class="navbar-item has-dropdown is-hoverable">
-                                    <a class="navbar-link">
-                                        More
-                                    </a>
-                    
-                                    <div class="navbar-dropdown">
-                                        <a class="navbar-item">
-                                            About
-                                        </a>
-                                        <a class="navbar-item">
-                                            Jobs
-                                        </a>
-                                    </div>
-                                </div>
+            <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="https://bulma.io">
+                        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+                    </a>
 
+                    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                        data-target="navbarBasicExample">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
 
-                            </div>
-                    
-                            <div class="navbar-end">
-                                <div class="navbar-item">
-                                    <div class="buttons">
-                                        <a class="button is-primary">
-                                            <strong>Sign up</strong>
-                                        </a>
-                                        <a class="button is-light">
-                                            Log in
-                                        </a>
-                                    </div>
-                                </div>
+                <div " class=" navbar-menu">
+                    <div class="navbar-start">
+                        <a href="/" class="navbar-item">
+                            Shop
+                            <i class="menu-icon gg-shopping-bag"></i>
+                        </a>
+                        <a href="/stock" class="navbar-item">
+                            Inventory
+                            <i class="menu-icon gg-airplane"></i>
+                        </a>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                More
+                            </a>
+
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item">
+                                    About
+                                </a>
+                                <a class="navbar-item">
+                                    Jobs
+                                </a>
                             </div>
                         </div>
-                    </nav>
+
+
+                    </div>
+
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                <button class="button is-dark">
+                                    <strong>Cart</strong>
+                                    <i class="menu-icon gg-shopping-cart"></i>
+                                </button>                                
+                                {% if user.is_authenticated %}                                                               
+                                        <div class="navbar-item has-dropdown is-hoverable">
+                                            <a class="navbar-link">
+                                                {{ user.get_username }}
+                                            </a>
+                                        
+                                            <div class="navbar-dropdown">
+                                                <a class="navbar-item">
+                                                    Profile
+                                                </a>
+                                                <a href="{% url 'logout'%}?next={{request.path}}" class="button is-light">
+                                                    Logout
+                                                </a>
+                                            </div>
+                                        </div>
+                                {% else %}
+                                <a href="{% url 'login'%}?next={{request.path}}" class="button is-light">
+                                        Log in</a>
+                                {% endif %}
+                                
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
         </header>
         <main id="pcontent">
-            <div id="app">
-                <vs-button>Hello World</vs-button>
-            </div>
             <div id="page-content">
-                {% block page-content %}
-                {% endblock page-content %}
+                {% block content %}
+                {% endblock content %}
 
             </div>
             <div id="footer">
@@ -101,32 +117,34 @@
 
     {%block scripts %}
     <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
-    <script src="{% static "inventory/scripts/js/vue.js" %}"></script>
-    <script src="{% static "inventory/scripts/js/vuesax.min.js" %}"></script>
+    <!-- <script src="{% static "inventory/scripts/js/vue.js" %}"></script>
+    <script src="{% static "inventory/scripts/js/vuesax.min.js" %}"></script> -->
     <!-- <script src="https://unpkg.com/vuesax@4.0.1-alpha.16/dist/vuesax.min.js"></script> -->
     <script>
-        new Vue({
-            el: '#app',
-            mounted: () => {
-                //this.refreshData();
-            },
-            data: () => {
-
-            },
-            methods: {
-                openLoading() {
-                    const loading = this.$vs.loading();
-                    setTimeout(() => {
-                        loading.close();
-                    }, 3000);
-                },
-
-                refreshData() {
-                    console.log('loading data')
-                    this.openLoading();
-                }
-            },
-        })
+        /*         new Vue({
+                    el: '#app',
+                    mounted: () => {
+                        //this.refreshData();
+                    },
+                    data: () => {
+                        return {
+        
+                        }
+                    },
+                    methods: {
+                        openLoading() {
+                            const loading = this.$vs.loading();
+                            setTimeout(() => {
+                                loading.close();
+                            }, 3000);
+                        },
+        
+                        refreshData() {
+                            console.log('loading data')
+                            this.openLoading();
+                        }
+                    },
+                }) */
     </script>
     {% endblock scripts %}
 </body>

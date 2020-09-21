@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
+from django.contrib.auth.decorators import login_required
 #from snippets.serializers import SnippetSerializer
 from .serializers import *
 
@@ -18,13 +19,20 @@ def home_view(request, *args, **kwargs):
     articles = Article.objects.all()
     akinds = ArticleKind.objects.all()
     cats = ArticleCategory.objects.all()
-    return render(request, 'index.html', context={'articles': articles,
-    'kinds' : akinds,
-    'categories': cats    
-    })
+    return render(request,
+                  'index.html',
+                  context={
+                      'articles': articles,
+                      'kinds': akinds,
+                      'categories': cats
+                  })
 
-def dashboard_view(request, *args, **kwargs):
-    return render(request, 'dashboard.html', context = {})
+
+@login_required(login_url='/accounts/login/')
+def dashboard_view(request):
+    if not request.user.is_authenticated:
+        return render(request, 'myapp/login_error.html')
+    return render(request, 'dashboard.html', context={})
 
 
 @api_view(['GET'])
@@ -40,17 +48,20 @@ def all_akinds(request):
     serializer = ArticleKindSerializer(akinds, many=True)
     return JsonResponse(serializer.data, safe=False)
 
+
 @api_view(['GET'])
 def all_categories(request):
     cats = ArticleCategory.objects.all()
     serializer = ArticleCategorySerializer(cats, many=True)
     return JsonResponse(serializer.data, safe=False)
 
+
 @api_view(['GET'])
 def all_user_sessions(request):
     usess = UserSession.objects.all()
     serializer = UserSessionSerializer(usess, many=True)
     return JsonResponse(serializer.data, safe=False)
+
 
 @api_view(['GET'])
 def all_app_users(request):
@@ -71,6 +82,7 @@ def all_baskets(request):
     baskets = Basket.objects.all()
     serializer = BasketSerializer(baskets, many=True)
     return JsonResponse(serializer, safe=False)
+
 
 #Article request handlers
 @api_view(['GET', 'PUT', 'DELETE'])

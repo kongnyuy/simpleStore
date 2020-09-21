@@ -21,6 +21,7 @@ from inventory.views import *
 
 from django.urls import path, include
 from django.contrib.auth.models import User
+from django.contrib.auth import views as auth_views
 from rest_framework import routers, serializers, viewsets
 from django.contrib import admin
 
@@ -49,6 +50,9 @@ urlpatterns = [
     path('home/', home_view, name='home'),
     path(r'stock/', dashboard_view, name="dashboard_view"),
     #url(r'^api-auth/', include('rest_framework.urls')),
+    #authentication urls
+    # path(r'accounts/login/', auth_views.LoginView.as_view()),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls',
                               namespace='rest_framework')),
