@@ -44,8 +44,11 @@
       </vs-tooltip>
     </section>
     <section class="arts-controllers"></section>
-    <section class="all-arts">
-      <p>icon inclusion</p>
+    
+    <!-- all articles display section -->
+
+    <section class="all-arts">      
+       <vs-button @click="openLoading">Open Loading</vs-button>
       <box-icon name="rocket"></box-icon>
     </section>
   </div>
@@ -58,6 +61,11 @@ export default {
   name: "Articles",
   components: {
     PageTitle,
+  },
+
+  mounted: () => {
+    console.log('vue mounted view')
+    //this.openLoading()
   },
   data: () => ({
     buyDialogShow: false,
@@ -84,6 +92,13 @@ export default {
         this.$data.buyDialogShow = false;
       }, 1500);
     },
+
+    openLoading() {
+          const loading = this.$vs.loading()
+          setTimeout(() => {
+            loading.close()
+          }, 3000)
+        }
   },
 };
 </script>

@@ -23,6 +23,7 @@
       >Store shelfs</vs-navbar-item>
       <!-- <vs-navbar-item :active="active == 'license'" id="license">license</vs-navbar-item> -->
       <template #right>
+        <vs-button warn gradient @click="refreshData()">refresh</vs-button>
         <vs-button @click="showLoginDialog = !showLoginDailog" flat>Login</vs-button>
         <vs-button circle icon floating>
           <i class="bx bx-plus"></i>
@@ -41,15 +42,15 @@
       </vs-sidebar-item>
       <vs-sidebar-item id="articles" @click="$router.push('articles')">
         <template #icon>
-          <i class='bx bxs-shapes' ></i>
+          <i class="bx bxs-shapes"></i>
         </template>
-        Articles 
+        Articles
       </vs-sidebar-item>
       <vs-sidebar-item id="store_shelfs" @click="$router.push('shelfs')">
         <template #icon>
-          <i class='bx bxs-shopping-bags' ></i>
+          <i class="bx bxs-shopping-bags"></i>
         </template>
-         Store shelfs
+        Store shelfs
       </vs-sidebar-item>
       <vs-sidebar-group>
         <template #header>
@@ -63,13 +64,13 @@
 
         <vs-sidebar-item id="inventory" @click="$router.push('inventory')">
           <template #icon>
-            <i class='bx bxs-buildings' ></i>
+            <i class="bx bxs-buildings"></i>
           </template>
           Inventory
         </vs-sidebar-item>
         <vs-sidebar-item id="store_shelfs" @click="$router.push('shelfs')">
           <template #icon>
-            <i class='bx bxs-store-alt' ></i>
+            <i class="bx bxs-store-alt"></i>
           </template>
           Articles in store(shelfs)
         </vs-sidebar-item>
@@ -141,6 +142,11 @@ export default {
   },
   mounted() {
     //this.$vs.setColor("primary", "#000");
+    //this.refreshData()
+  },
+
+  created(){
+    this.refreshData()
   },
   props: {},
   data: () => ({
@@ -164,8 +170,21 @@ export default {
     email: "",
     password: "",
     remember: false,
-    userLoggedIn: false
+    userLoggedIn: false,
   }),
+  methods: {
+    openLoading() {
+      const loading = this.$vs.loading();
+      setTimeout(() => {
+        loading.close();
+      }, 3000);
+    },
+
+    refreshData(){
+      console.log('loading data')
+      this.openLoading();
+    }
+  },
 };
 </script>
 
