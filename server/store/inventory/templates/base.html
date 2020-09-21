@@ -10,24 +10,95 @@
     {% endblock meta %}
     {% block styles %}
     <!-- <link href="https://unpkg.com/vuesax@4.0.1-alpha.16/dist/vuesax.min.css" rel="stylesheet"> -->
-    <link href="{% static "inventory/styles/css/vuesax.min.css" %}" rel="stylesheet">
-    <link href="{% static "inventory/styles/css/base.css" %}" rel="stylesheet">
+    <link href="{% static "inventory/styles/css/bulma.css" %}" rel="stylesheet">
+    <link href="{% static "inventory/styles/css/vuesax.min.css" %}" rel="stylesheet">    
+    <link href="{% static "inventory/styles/css/gg.css" %}" rel="stylesheet">
+    <link href="{% static "inventory/styles/css/app.css" %}" rel="stylesheet">
+
+
     {% endblock styles %}
     <title> {% block title %}Title{% endblock title %} </title>
 </head>
 
 <body>
-    <div id="app">
-        <vs-button>Hello World</vs-button>
-    </div>
-    <div id="page-content">
-        {% block page-content %}
-        {% endblock page-content %}
-    </div>
-    <div id="footer">
-        {% block footer %}
-        {% endblock footer %}
-    </div>
+    <section id="main-section">
+        <header>
+                    <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
+                        <div class="navbar-brand">
+                            <a class="navbar-item" href="https://bulma.io">
+                                <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+                            </a>
+                    
+                            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                                data-target="navbarBasicExample">
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                                <span aria-hidden="true"></span>
+                            </a>
+                        </div>
+                    
+                        <div " class="navbar-menu">
+                            <div class="navbar-start">
+                                <a href="/" class="navbar-item">
+                                    Shop 
+                                    <i class="menu-icon gg-shopping-bag"></i>
+                                </a>
+                                <a href="/stock" class="navbar-item">
+                                    Inventory
+                                    <i class="menu-icon gg-airplane"></i>
+                                </a>
+                                <div class="navbar-item has-dropdown is-hoverable">
+                                    <a class="navbar-link">
+                                        More
+                                    </a>
+                    
+                                    <div class="navbar-dropdown">
+                                        <a class="navbar-item">
+                                            About
+                                        </a>
+                                        <a class="navbar-item">
+                                            Jobs
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                    
+                            <div class="navbar-end">
+                                <div class="navbar-item">
+                                    <div class="buttons">
+                                        <a class="button is-primary">
+                                            <strong>Sign up</strong>
+                                        </a>
+                                        <a class="button is-light">
+                                            Log in
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+        </header>
+        <main id="pcontent">
+            <div id="app">
+                <vs-button>Hello World</vs-button>
+            </div>
+            <div id="page-content">
+                {% block page-content %}
+                {% endblock page-content %}
+
+            </div>
+            <div id="footer">
+                {% block footer %}
+                {% endblock footer %}
+            </div>
+        </main>
+        <footer>
+
+        </footer>
+    </section>
+
     {%block scripts %}
     <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
     <script src="{% static "inventory/scripts/js/vue.js" %}"></script>
@@ -35,7 +106,26 @@
     <!-- <script src="https://unpkg.com/vuesax@4.0.1-alpha.16/dist/vuesax.min.js"></script> -->
     <script>
         new Vue({
-            el: '#app'
+            el: '#app',
+            mounted: () => {
+                //this.refreshData();
+            },
+            data: () => {
+
+            },
+            methods: {
+                openLoading() {
+                    const loading = this.$vs.loading();
+                    setTimeout(() => {
+                        loading.close();
+                    }, 3000);
+                },
+
+                refreshData() {
+                    console.log('loading data')
+                    this.openLoading();
+                }
+            },
         })
     </script>
     {% endblock scripts %}

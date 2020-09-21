@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static from static %}
+{% block title %}Section 1{% endblock %}
+{% block page-content %}
+<div class="arts-disp container is-fluid">
+
+    <div class="columns">
+        <div class="column is-one-fifths">
+
+        </div>
+        <div class="column is-four-fifths ">
+            <div class="search-area">
+                <div class="sb field">
+                    <div class="control is-loading">
+                        <input class="input" type="text" placeholder="Normal loading input">
+                    </div>
+                </div>
+            </div>
+            <div class="articles-container">
+                {% for item in articles %}
+                <div class="art-vert-tpl">
+                    <div style="background-image: url('{% static "inventory/media/images/hugo-online-shopping.png" %}');"
+                        class="img-section">
+                    </div>
+                    <div class="data-s">
+                
+                
+                        <p class=" is-4 ">{{item.name}}</p>
+                        <p class=" is-6">by <b>{{item.maker | upper}}</b></p>
+                
+                
+                
+                        <span class="tag is-danger" style="margin: 0.5em 0 0.5em 0;"><b>cost:
+                                <i>{{item.cost}}</i></b></span>
+                
+                        <div class="control">
+                            <div class="tags has-addons">
+                                <span class="tag is-dark">Model</span>
+                                <span class="tag is-primary"><b>{{item.model}}</b></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

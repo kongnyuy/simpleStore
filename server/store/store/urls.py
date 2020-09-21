@@ -19,10 +19,11 @@ from django.urls import path
 #from pages.views import home_view, about_view, contact_view
 from inventory.views import *
 
-
 from django.urls import path, include
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
+from django.contrib import admin
+
 
 
 # Serializers define the API representation.
@@ -42,16 +43,15 @@ class UserViewSet(viewsets.ModelViewSet):
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
     path('home/', home_view, name='home'),
+    path(r'stock/', dashboard_view, name="dashboard_view"),
     #url(r'^api-auth/', include('rest_framework.urls')),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls',
                               namespace='rest_framework')),
-
     #backend entity and relationship routes
     path('be/articles/', all_articles, name="all_articles"),
     path('be/akinds/', all_akinds, name="all_kinds"),
@@ -60,6 +60,4 @@ urlpatterns = [
     path('be/ausers/', all_app_users, name="ausers"),
     path('be/baskets/', all_baskets, name="baskets"),
     path('be/sarticles/', all_store_articles, name="sarticles")
-
-
 ]

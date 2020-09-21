@@ -15,7 +15,16 @@ from .models import *
 def home_view(request, *args, **kwargs):
     #return HttpResponse("<h1>Hello World</h1>")
     # Render the HTML template index.html with the data in the context variable
-    return render(request, 'base.html', context={})
+    articles = Article.objects.all()
+    akinds = ArticleKind.objects.all()
+    cats = ArticleCategory.objects.all()
+    return render(request, 'index.html', context={'articles': articles,
+    'kinds' : akinds,
+    'categories': cats    
+    })
+
+def dashboard_view(request, *args, **kwargs):
+    return render(request, 'dashboard.html', context = {})
 
 
 @api_view(['GET'])
