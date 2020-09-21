@@ -35,10 +35,10 @@ class ArticleCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    fieldsets = [('Application users', {'fields': ['name']})]
+    fieldsets = [('Application users', {'fields': ['name', 'auth']})]
 
     readonly_fields = ('id', 'created_at', 'updated_at')
-    list_display = ['id', 'name', 'created_at', 'updated_at']
+    list_display = ['id', 'name', 'auth','created_at', 'updated_at']
 
 
 @admin.register(ArticleKind)
