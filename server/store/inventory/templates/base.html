@@ -45,7 +45,7 @@
                         </a>
                         <a href="/stock" class="navbar-item">
                             Inventory
-                            <i class="menu-icon gg-airplane"></i>
+                            <i class="menu-icon gg-stack"></i>
                         </a>
                         <div class="navbar-item has-dropdown is-hoverable">
                             <a class="navbar-link">
@@ -68,14 +68,15 @@
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="buttons">
-                                <button class="button is-dark">
+                                <button id="modal-cart-trigger" class="button is-dark">
                                     <strong>Cart</strong>
                                     <i class="menu-icon gg-shopping-cart"></i>
                                 </button>                                
                                 {% if user.is_authenticated %}                                                               
                                         <div class="navbar-item has-dropdown is-hoverable">
                                             <a class="navbar-link">
-                                                {{ user.get_username }}
+                                                <i class="menu-icon gg-user" style="margin: 0 0.5em 0 0;"></i>
+                                                <b style="font-weight: 800;">{{ user.get_username }}</b>
                                             </a>
                                         
                                             <div class="navbar-dropdown">

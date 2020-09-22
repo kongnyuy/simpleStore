@@ -10,6 +10,7 @@
         </div>
         <div class="column is-four-fifths ">
             <div class="search-area">
+                <h5 class="title is-5"> Search</h5>
                 <div class="sb field">
                     <div class="control is-loading">
                         <input class="input" type="text" placeholder="Normal loading input">
@@ -18,21 +19,28 @@
             </div>
             <div class="articles-container">
                 {% for item in articles %}
-                <div class="art-vert-tpl"  onclick="console.log('{{item.name}}')">
+                <div class="art-vert-tpl" onclick="addArticleToCart({
+            'id' : {{item.id}},
+            'name': '{{item.name}}',
+            'maker': '{{item.maker}}',
+            'model': '{{item.model}}',
+            'cost': {{item.cost}},
+            'quantity': {{item.quantity}}})">
                     <div style="background-image: url('{% static "inventory/media/images/hugo-online-shopping.png" %}');"
                         class="img-section">
+                        <button class="add-cart button is-light is-small">
+                            <i class="gg-folder-add"></i>
+                            add
+                        </button>
                     </div>
                     <div class="data-s">
-                
-                
+
                         <p class=" is-4 ">{{item.name}}</p>
                         <p class=" is-6">by <b>{{item.maker | upper}}</b></p>
-                
-                
-                
+
                         <span class="tag is-danger" style="margin: 0.5em 0 0.5em 0;"><b>cost:
                                 <i>{{item.cost}}</i></b></span>
-                
+
                         <div class="control">
                             <div class="tags has-addons">
                                 <span class="tag is-dark">Model</span>
@@ -47,5 +55,61 @@
     </div>
 </div>
 
+{% block modal-cart %}
+
+<div class="cit">
+    <div class="cit-val">
+        <b class="cit-val-name">Article name</b>
+    </div>
+    <div class="cit-controls">        
+        <button id="cit-inc" class="button is-danger ">
+            <span class="icon is-small">
+                <i class=" gg-add"></i>
+            </span>
+        </button>
+        <b id="cit-count">100</b>
+        <button id="cit-dec" class="button is-info ">
+            <span class="icon is-small">
+                <i class=" gg-remove"></i>                
+            </span>
+        </button>
+    </div>
+</div>
+
+<div id="cart-modal" class="modal ">
+    <div class="modal-background"></div>
+    <div class="modal-card cart-dialog">
+        <header class="modal-card-head">
+            <p class="title is-4 modal-card-title">Cart Items <b class="c-count"></b></p>
+            <button id="cart-modal-close" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body columns">
+            <div class="mcb-articles column is-two-thirds">
+                
+            </div>
+            <aside class="mcb-agg-calc column is-one-thirds">
+                calc
+            </aside>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-success">Save changes</button>
+            <button class="button">Cancel</button>
+        </footer>
+    </div>
+</div>
+
+{% endblock %}
+
 <script src="{% static "inventory/scripts/js/cart.js" %}" type="text/javascript"></script>
+<script type="text/javascript">
+    function addArticleToCart(upitem = {}) {
+        if (window.cart) {
+            //pitem = JSON.parse(upiem)
+            window.cart.addItem(upitem)
+        } else {
+            console.error('No cart detected. cart issues, please try again')
+        }
+    }
+
+</script>
 {% endblock %}

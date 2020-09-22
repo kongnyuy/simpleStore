@@ -3,7 +3,7 @@ body{
 }
 
 .menu-icon {
-    margin: 0 0 0 1em;
+    margin: 0 8px 0 1em;
 }
 
 .articles-container{
@@ -25,6 +25,36 @@ body{
     width: 20em;
 }
 
+.auth-login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 2em 0 0 0;
+}
+
+
+form.login-f{
+    
+    padding: 1em;
+    background-color: pink;
+    height: auto
+    
+}
+
+
+
+.login-f input {
+    width: 20em;
+    border: none;
+    height: 2.5em;
+    padding: 5px 5px;
+}
+
+.login-f label{
+    font-weight: 800;
+}
 
 .art-vert-tpl{
     min-width: 20em;
@@ -32,7 +62,7 @@ body{
     min-height: 8em;
     max-height: 10em;
     height: auto;
-    box-shadow: 1px 1.5px 20px  solid rgba(0, 0, 0, 0.836);
+    box-shadow: 0 0.5em 0.8em -0.125em rgba(10, 10, 10, 0.096), 0 0 0 1px rgba(10,10,10,.02);
     border-radius: 5px;
     background-color: whitesmoke;
     padding: 0;
@@ -57,10 +87,25 @@ body{
     height: 100%;
     min-height: 8em;
     /* background-color: antiquewhite; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     
+}
+
+.add-cart {
+    align-self: center;
+    justify-content: center;
+    visibility: hidden;
+}
+
+.img-section:hover > .add-cart{
+    visibility: visible;
 }
 
 .art-vert-tpl .data-s{
@@ -72,3 +117,64 @@ body{
     justify-content: center;
 
 }
+
+
+/* Cart modal styles */
+#cart-modal {
+    background-color: pink;
+    
+}
+
+.cart-dialog{
+    height: 90vh;
+    width: 80vw;
+    background-color: antiquewhite;
+}
+
+
+.cit {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    min-width: 15em;
+    width: auto;
+    max-width: 20em;
+    height: 3em;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0 0.5em 0.8em -0.125em rgba(10, 10, 10, 0.096), 0 0 0 1px rgba(10,10,10,.02);
+    margin: 0.5em 1em;
+    border: 1px solid rgba(0, 0, 0, 0.473);
+    padding: 0.4em 0.2em;
+}
+
+.cit-count{
+    width: 2em;
+    font-size: 20px;
+    font-weight: 700;
+    color: green;
+    margin: 0em 0.5em;
+    padding: 0 10px;
+}
+
+.cit-vals{
+    /* width: 60%; */
+    height: 100%;
+    padding: 5px 10px;
+    /* background-color: pink; */
+}
+
+.cit-controls{
+    /* width: 40%; */
+    margin: 0 0 0 0.5em;
+    height: 100%;
+    /* background-color: red; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/* end cart modal styles */

@@ -1,37 +1,63 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="auth-login container is-fluid">
+    {% if form.errors %}
+    <div class="notification is-danger is-light">
+        <button onclick="hideError" class="delete"></button>
+        <p>Your username and password didn't match. Please try again.</p>
+    </div>
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+    {% endif %}
 
-{% if next %}
-{% if user.is_authenticated %}
-<p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-{% else %}
-<p>Please login to see this page.</p>
-{% endif %}
-{% endif %}
+    {% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+    {% else %}
+    <h4 class="title is-4">Please login to see this page.</h4>
+    {% endif %}
+    {% endif %}
 
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <table>
-        <tr>
-            <td>{{ form.username.label_tag }}</td>
-            <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password }}</td>
-        </tr>
-    </table>
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next }}" />
-</form>
+    <div class="login-f">
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="field">
+                {{ form.username.label_tag }}
+                <div class="control has-icons-left has-icons-right">
+                    <!-- <input class="input is-success" type="text" placeholder="Text input" value="bulma"> -->
+                    {{ form.username }}
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                    </span>
+                </div>
+                <p class="help is-success">This username is available</p>
+            </div>            
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+            <div class="field">
+                {{ form.password.label_tag }}
+                <div class="control has-icons-left has-icons-right">
+                    <!-- <input class="input is-success" type="text" placeholder="Text input" value="bulma"> -->
+                    {{ form.password }}
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                    </span>
+                </div>
+                <p class="help is-success">This username is available</p>
+            </div>
+            <button class="button is-warning" type="submit" value="login">Login</button>
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
 
+        {# Assumes you setup the password_reset view in your URLconf #}
+        <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+    </div>
+</div>
 {% endblock %}
+
