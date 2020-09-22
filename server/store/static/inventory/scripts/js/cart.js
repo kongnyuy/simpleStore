@@ -2,6 +2,67 @@
  * Cart handler
  */
 var cart_modal_open = false
+
+
+async function postData(url = '', data = {}) {
+    const response = await fetch(`/be/baskets/${url}`, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'same-origin', // no-cors, *cors, same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: JSON.stringify(data)
+    })
+    return response.json()
+}
+
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = '';
+
+
+function showSuccessConfirmToast({state, reason, message}){
+    iziToast.show({
+        theme: 'dark',
+        timeout: 20000,
+        close: false,
+        overlay: true,
+        displayMode: 'once',
+        id: 'question',
+        zindex: 999,
+        title: state,
+        message: message,
+        position: 'center',
+        buttons: [
+            [`<button><b>CONFIRM</b></button>`, function (instance, toast) {
+
+                instance.hide({ transitionOut: 'fadeOut' }, toast, 'button');
+
+            }, true],
+        ],        
+    });
+}
+
 document.addEventListener('DOMContentLoaded', ev => {
     console.log('cart hooked in ')
     /*      if(window.cart){
@@ -19,16 +80,53 @@ document.addEventListener('DOMContentLoaded', ev => {
     let cartModal = document.querySelector('#cart-modal')
     let cartModalClose = document.querySelector('#cart-modal-close')
 
+     csrftoken   = getCookie('csrftoken');
+
     //server interact button s
     let buyBtn = document.querySelector('#buy-basket'),
         saveBtn = document.querySelector('#save-basket')
 
     buyBtn.addEventListener('click', ev => {
         console.log('buy items')
+        if (window.cart) {
+            if (window.cart.ids.length < 1) {
+
+            } else {
+                postData('buy', data = window.cart.ids).then(res => {
+                    pres = JSON.parse(res)
+                    console.log(pres.state)
+                    showSuccessConfirmToast(pres)
+                }).catch(err => {
+                    console.error(err)
+                    iziToast.error({
+                        title: 'ERROR OCCURED',
+                        message: `${err.message}`,
+                    });
+                })
+            }
+        }
     })
 
     saveBtn.addEventListener('click', ev => {
         console.log('save items')
+        console.log('buy items')
+        if (window.cart) {
+            if (window.cart.ids.length < 1) {
+
+            } else {
+                postData('save', data = window.cart.ids).then(res => {
+                    pres = JSON.parse(res)
+                    console.log(pres.state)
+                    showSuccessConfirmToast(pres)
+                }).catch(err => {
+                    console.error(err)
+                    iziToast.error({
+                        title: 'ERROR OCCURED',
+                        message: `${err.message}`,
+                    });
+                })
+            }
+        }
     })
 
 
@@ -147,15 +245,38 @@ function incrementCartItem({ id, max }) {
         }
         //callback()
         updateCartCountView()
-        fillCartItemsView()        
+        fillCartItemsView()
+        setTotalPrice()
+    }
+}
+
+function decrementCartItem({ id, max }) {
+    //{id: int}
+
+    if (window.cart) {
+        let cqty = window.cart.ids[id]
+        console.info(`>>> increment1 ${id} | ${max} | current quantity: ${cqty}`)
+        if (cqty > 0) {
+            //this.quantity++
+            window.cart.ids[id] -= 1
+        } else {
+            //window.cart.ids[id] = 0
+            iziToast.error({
+                title: 'MIN REACHED',
+                message: `None of those have been selected`,
+            });
+        }
+        //callback()
+        updateCartCountView()
+        fillCartItemsView()
         setTotalPrice()
     }
 }
 
 function CartItem(item = { quantity: 0 }) {
     this.item = item
-    this.quantity =  0;
-    if(window.cart){
+    this.quantity = 0;
+    if (window.cart) {
         this.quantity = window.cart.ids[parseInt(item.id)]
     }
 
@@ -182,7 +303,7 @@ function CartItem(item = { quantity: 0 }) {
                                         </button>
                                     </p>
                                     <p class="control">
-                                        <button id="cit-inc" class="button  is-small">                                            
+                                        <button onclick="decrementCartItem({id:${item.id}, max:${item.quantity}})" id="cit-inc" class="button  is-small">                                            
                                             <span>Deduct</span>
                                         </button>
                                     </p>
@@ -244,11 +365,9 @@ function CartItem(item = { quantity: 0 }) {
 }
 
 function fillCartItemsView() {
-    console.info('fill cart items')
+    //console.info('fill cart items')
     //let area = document.querySelector('.mcb-articles')
-    let area = document.querySelector('tbody#items-table-body')
-    console.log(area)
-    console.log(window.cart.distinctItems())
+    let area = document.querySelector('tbody#items-table-body')        
     if (area) {
         //area.innerHTML = ''
         if (window.cart) {
@@ -275,7 +394,7 @@ function fillCartItemsView() {
                 area.innerHTML = out
             }
         } else {
-            console.error('not there')
+            
         }
     }
 }

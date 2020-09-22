@@ -63,5 +63,7 @@ urlpatterns = [
     path('be/usessions/', all_user_sessions, name="usessions"),
     path('be/ausers/', all_app_users, name="ausers"),
     path('be/baskets/', all_baskets, name="baskets"),
-    path('be/sarticles/', all_store_articles, name="sarticles")
+    path('be/sarticles/', all_store_articles, name="sarticles"),
+
+    path(r'be/baskets/buy',basket_data_save, name="basket_data_save")
 ]

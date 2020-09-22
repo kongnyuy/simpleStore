@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rest_framework import status
@@ -82,6 +83,40 @@ def all_baskets(request):
     baskets = Basket.objects.all()
     serializer = BasketSerializer(baskets, many=True)
     return JsonResponse(serializer, safe=False)
+
+
+@api_view(['POST'])
+def basket_data_save(request):
+    #body_unicode = request.body.decode('utf-8')
+    #body = json.loads(body_unicode)
+    #content = body['content']
+    content = request.data
+    for id, qty in content.items():
+        art = Article.objects.get(id=id)
+        print(f'Article: {art.name} -> [{art.quantity}]')
+        if (art.quantity > qty):
+            art.quantity -= qty
+            art.save()
+        else:
+            res = json.dumps({
+                'state':
+                'FAILED',
+                'reason':
+                f'Only {art.quantity} items left for the article',
+                'message':
+                'Sorry for the inconvinience, we will restock as soon as possible, in the mean time please browse other articles'
+            })
+        print(f'Article: {art.name} -> [{art.quantity}]')
+
+    #print(content)
+    res = json.dumps({
+        'state':
+        'OK',
+        'reason': '',
+        'message':
+        'Thank you for your purchase'
+    })
+    return JsonResponse(res, safe=False)
 
 
 #Article request handlers
