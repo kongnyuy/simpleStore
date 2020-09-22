@@ -125,6 +125,20 @@ form.login-f{
     
 }
 
+.mcb-articles{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+#items-table i{
+    font-size: 5px;
+    /* color: red; */
+}
+
 .cart-dialog{
     height: 90vh;
     width: 80vw;
