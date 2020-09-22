@@ -1,5 +1,6 @@
 {% extends "base.html"%}
 {% load static from static %}
+{% block title %}Shop | Search your articles{% endblock %}
 {% block content%}
 <section id="search-page">
     <div class="search-header">
@@ -64,21 +65,36 @@
     </div>
 </section>
 
+
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', ev => {
         console.log('dom ready')
 
         let searchBtn = document.querySelector('#search-btn')
         let searchValue = document.querySelector('#search_val')
-        searchBtn.addEventListener('click', ev => {
+        
+        searchBtn.addEventListener('click', ev => {            
             let val = searchValue.value.toString().trim()
             console.log(">> " + val)
-            if (val != "") {
-                window.location.href = `${window.location.origin}/search?q=${val}`
+            if (val != "") {                
                 //console.log('entered empty')
+                openSearch(val)
+            }
+        })
+
+        searchValue.addEventListener('keyup', ev => {
+            let val = searchValue.value.toString().trim()
+            console.log(searchValue.value)
+            if(ev.keyCode === 13){
+                console.log(`Value entered: ${searchValue.value}`)
+                openSearch(val);
             }
         })
     })
+
+    function openSearch(p = ''){
+        window.location.href = `${window.location.origin}/search?q=${p}`
+    }
 
 </script>
 

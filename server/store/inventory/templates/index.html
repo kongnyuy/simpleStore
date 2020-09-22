@@ -1,23 +1,13 @@
 {% extends "base.html" %}
 {% load static from static %}
-{% block title %}Section 1{% endblock %}
+{% block title %}Shop | buy and sell{% endblock %}
 {% block content %}
 <div class="arts-disp container is-fluid">
 
     <div class="columns">
-        <div class="column is-one-fifths">
 
-        </div>
-        <div class="column is-four-fifths ">
-            <div class="search-area">
-                <h5 class="title is-5"> Search</h5>
-                <div class="sb field">
-                    <div class="control is-loading">
-                        <input class="input" type="text" placeholder="Normal loading input">                        
-                    </div>                    
-                </div>
-                <button class="button is-focused">Search</button>
-            </div>
+        <div class="column ">
+            <h3 style="margin: 1em 0 0 1.5em;" class="title is-3">Articles in the shop</h3>
             <div class="articles-container">
                 {% for item in articles %}
                 <div class="art-vert-tpl" onclick="addArticleToCart({

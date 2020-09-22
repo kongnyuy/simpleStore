@@ -107,27 +107,29 @@ document.addEventListener('DOMContentLoaded', ev => {
         }
     })
 
-    saveBtn.addEventListener('click', ev => {
-        console.log('save items')
-        console.log('buy items')
-        if (window.cart) {
-            if (window.cart.ids.length < 1) {
-
-            } else {
-                postData('save', data = window.cart.ids).then(res => {
-                    pres = JSON.parse(res)
-                    console.log(pres.state)
-                    showSuccessConfirmToast(pres)
-                }).catch(err => {
-                    console.error(err)
-                    iziToast.error({
-                        title: 'ERROR OCCURED',
-                        message: `${err.message}`,
-                    });
-                })
+    if(saveBtn != undefined){
+        saveBtn.addEventListener('click', ev => {
+            console.log('save items')
+            console.log('buy items')
+            if (window.cart) {
+                if (window.cart.ids.length < 1) {
+    
+                } else {
+                    postData('save', data = window.cart.ids).then(res => {
+                        pres = JSON.parse(res)
+                        console.log(pres.state)
+                        showSuccessConfirmToast(pres)
+                    }).catch(err => {
+                        console.error(err)
+                        iziToast.error({
+                            title: 'ERROR OCCURED',
+                            message: `${err.message}`,
+                        });
+                    })
+                }
             }
-        }
-    })
+        })
+    }
 
 
     cartModalClose.addEventListener('click', ev => {
