@@ -192,3 +192,17 @@ form.login-f{
 }
 
 /* end cart modal styles */
+
+
+/* Dashboard styles */
+
+.dash-tile article {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: bisque;
+    
+}
+
+/* end of dashboard styles */

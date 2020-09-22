@@ -1,79 +1,288 @@
 {% extends "base.html"%}
 {% block content%}
 <section id="dashboard">
-    ut.
-    
+
+    <br>
     <div class="tile is-ancestor">
-        <div class="tile is-parent">
+        <div class="tile is-parent dash-tile">
             <article class="tile is-child box">
-                <p class="title">One</p>
-                <p class="subtitle">Subtitle</p>
+                <aside>
+                    <b class="title agg">{{kinds | length}}</b>
+                </aside>
+                <div>
+                    <p class="title is-5">Article kinds</p>
+                    <p class="dash-desc">Total number of article kinds in the system</p>
+                </div>
             </article>
+
         </div>
-        <div class="tile is-parent">
+        <div class="tile is-parent dash-tile">
             <article class="tile is-child box">
-                <p class="title">Two</p>
-                <p class="subtitle">Subtitle</p>
+                <aside>
+                    <b class="title agg">{{articles | length}}</b>
+                </aside>
+                <div>
+                    <p class="title is-5">Articles count</p>
+                    <p class="dash-desc">Total number of article in stock</p>
+                </div>
             </article>
+
         </div>
-        <div class="tile is-parent">
+        <div class="tile is-parent dash-tile">
             <article class="tile is-child box">
-                <p class="title">Three</p>
-                <p class="subtitle">Subtitle</p>
+                <aside>
+                    <b class="title agg">{{categories | length}}</b>
+                </aside>
+                <div>
+                    <p class="title is-5">Categories count</p>
+                    <p class="dash-desc">Categories of articles sold</p>
+                </div>
             </article>
+
         </div>
-        <div class="tile is-parent">
+
+        <div class="tile is-parent dash-tile">
             <article class="tile is-child box">
-                <p class="title">Four</p>
-                <p class="subtitle">Subtitle</p>
+                <aside>
+                    <b class="title agg">{{sarticles | length}}</b>
+                </aside>
+                <div>
+                    <p class="title is-5">Articles in shop count</p>
+                    <p class="dash-desc">Total number of article in the shop</p>
+                </div>
             </article>
+
         </div>
+        <div class="tile is-parent dash-tile">
+            <article class="tile is-child box">
+                <aside>
+                    <b class="title agg">{{appUsers | length}}</b>
+                </aside>
+                <div>
+                    <p class="title is-5">App users count</p>
+                    <p class="dash-desc">Total number of users in the system</p>
+                </div>
+            </article>
+
+        </div>
+        <div class="tile is-parent dash-tile">
+            <article class="tile is-child box">
+                <aside>
+                    <b class="title agg">{{usessions | length}}</b>
+                </aside>
+                <div>
+                    <p class="title is-5">User sessions </p>
+                    <p class="dash-desc">Active user sessions count</p>
+                </div>
+            </article>
+
+        </div>
+
+        <div class="tile is-parent dash-tile">
+            <article class="tile is-child box">
+                <aside>
+                    <b class="title agg">{{baskets | length}}</b>
+                </aside>
+                <div>
+                    <p class="title is-5">Baskets count</p>
+                    <p class="dash-desc">Total number of recorded baskets in the system</p>
+                </div>
+            </article>
+
+        </div>
+
+
+    </div>
+
+    <div class="columns">
+        <article style="margin: 2em 0 2em 5em;" class="message">
+            <div class="message-header">
+                <p>Administration links | inventory management</p>
+                <button class="delete" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+                <a target="_blank" href="http://127.0.0.1:8000/admin/auth/user/" class="button is-focused">User management</a>
+                <a target="_blank" href="http://localhost:8000/admin/auth/group/" class="button is-primary is-focused">User groups</a>
+                <a target="_blank" href="http://localhost:8000/admin/inventory/article/" class="button is-link is-focused"">Advanced Article management</a>
+                <a target="_blank" href="http://localhost:8000/admin/inventory/baskets/" class="button is-info is-focused"">User Baskets</a>
+                                
+                <button class="button is-success is-focused">Focus</button>
+                <button class="button is-warning is-focused">Focus</button>
+                <button class="button is-danger is-focused">Focus</button>
+            </div>
+        </article>
+
     </div>
 
     <div class="tile is-ancestor">
         <div class="tile is-vertical is-8">
             <div class="tile">
-                <div class="tile is-parent is-vertical">
-                    <article class="tile is-child notification is-primary">
-                        <p class="title">Vertical...</p>
-                        <p class="subtitle">Top tile</p>
-                    </article>
-                    <article class="tile is-child notification is-warning">
-                        <p class="title">...tiles</p>
-                        <p class="subtitle">Bottom tile</p>
-                    </article>
+                <div class="tile is-parent dash-tile ">
+                    <aside class="tile is-child notification ">
+                        <div>
+                            <p class="title">Categories</p>
+                            <p class="subtitle">All registered categories in the system</p>
+                        </div>
+                        <br>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Label</th>
+                                    <th>Description</th>
+                                    <th>Date registered</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in categories %}
+                                <tr>
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.label}}</td>
+                                    <td>{{item.description}}</td>
+                                    <td>{{item.created_at}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+
+                                </tr>
+                            </tfoot>
+
+                        </table>
+                    </aside>
+                    <aside class="tile is-child notification is-warning">
+                        <div>
+                            <p class="title">Kinds of articles</p>
+                            <p class="subtitle">Different kinds of articles</p>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Label</th>
+                                    <th>Description</th>
+                                    <th>Date registered</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in categories %}
+                                <tr>
+                                    <td>{{item.id}}</td>
+                                    <td>{{item.label}}</td>
+                                    <td>{{item.description}}</td>
+                                    <td>{{item.created_at}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+
+                                </tr>
+                            </tfoot>
+
+                        </table>
+                    </aside>
                 </div>
-                <div class="tile is-parent">
-                    <article class="tile is-child notification is-info">
-                        <p class="title">Middle tile</p>
-                        <p class="subtitle">With an image</p>
-                        <figure class="image is-4by3">
-                            <img src="https://bulma.io/images/placeholders/640x480.png">
-                        </figure>
-                    </article>
-                </div>
+
             </div>
-            <div class="tile is-parent">
-                <article class="tile is-child notification is-danger">
-                    <p class="title">Wide tile</p>
-                    <p class="subtitle">Aligned with the right tile</p>
+
+            <div class="tile is-parent dash-tile">
+                <article class="tile is-child notification is-info">
                     <div class="content">
-                        <!-- Content -->
+                        <p class="title">Shelf in store</p>
+                        <p class="subtitle">Store organisation shop sections, shelfs</p>
+                        <div class="content">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Article</th>
+                                        <th>Category</th>
+                                        <th>Kind</th>
+                                        <th>shelf</th>
+                                        <th>Count</th>
+                                        <th>Moved on</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in sarticles %}
+                                    <tr>
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.article.name}}</td>
+                                        <td>{{item.article.category}}</td>
+                                        <td>{{item.article.kind}}</td>
+                                        <td>{{item.shelf}}</td>
+                                        <td>{{item.count}}</td>
+                                        <td>{{item.created_at}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+
+                                    </tr>
+                                </tfoot>
+
+                            </table>
+                        </div>
                     </div>
                 </article>
             </div>
+
+
         </div>
-        <div class="tile is-parent">
-            <article class="tile is-child notification is-success">
-                <div class="content">
-                    <p class="title">Tall tile</p>
-                    <p class="subtitle">With even more content</p>
-                    <div class="content">
-                        <!-- Content -->
-                    </div>
-                </div>
-            </article>
+    </div>
+
+    <div class=" dash-tile">
+
+        <div class="">
+            <p class="title">Articles in stock</p>
+            <p class="subtitle">All articles in the system</p>
         </div>
+        <div style="margin: 0 0 5em 0;" class="content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Maker</th>
+                        <th>Model</th>
+                        <th>Category</th>
+                        <th>Kind</th>
+                        <th>Date added</th>
+                        <th>Unit price</th>
+                        <th>Quantity</th>
+                        <th>Estimated sales revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in articles %}
+                    <tr>
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.maker}}</td>
+                        <td>{{item.model}}</td>
+                        <td>{{item.category}}</td>
+                        <td>{{item.kind}}</td>
+                        <td>{{item.dateAdded}}</td>
+                        <td>{{item.cost}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.cost }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+
+                    </tr>
+                </tfoot>
+
+            </table>
+        </div>
+        </article>
+    </div>
+
     </div>
 </section>
 {% endblock %}

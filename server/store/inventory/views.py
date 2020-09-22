@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.contrib.auth.decorators import login_required
+
+#from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 #from snippets.serializers import SnippetSerializer
 from .serializers import *
 
@@ -33,7 +35,58 @@ def home_view(request, *args, **kwargs):
 def dashboard_view(request):
     if not request.user.is_authenticated:
         return render(request, 'myapp/login_error.html')
-    return render(request, 'dashboard.html', context={})
+
+    akinds = ArticleKind.objects.all()
+    cats = ArticleCategory.objects.all()
+    usess = UserSession.objects.all()
+    users = User.objects.all()
+    articles = Article.objects.all()
+    sarticles = StoreArticle.objects.all()
+    baskets = Basket.objects.all()
+    return render(request,
+                  'dashboard.html',
+                  context={
+                      'kinds': akinds,
+                      'categories': cats,
+                      'usessions': usess,
+                      'appUsers': users,
+                      'articles': articles,
+                      'sarticles': sarticles,
+                      'baskets': baskets,
+                  })
+
+
+def parseQuery(q):
+    if "&" in q:
+        sq = q.split('&')
+        for i, e in enumerate(sq):
+            if "q" in e:
+                return e.split('=')[1]
+    else:
+        print(f'out: {q}')
+        sq = q.split('=')
+        if "q" in sq:
+            return sq[1]
+
+
+
+
+@api_view(['GET', 'POST'])
+def search_view(request):
+    if request.method == 'GET':
+        #query_str = request.META['QUERY_STRING']
+        query_str = request.GET.urlencode()
+        if query_str.strip() == '':
+            return render(request, 'search.html', context={})
+        query = parseQuery(query_str.strip())
+        print(f'>>>> {query}')
+        farts = Article.objects.filter(name__contains=query)
+        size = farts.count()
+        return render(request, 'search.html', context={'articles': farts, 'size': size})
+    elif request.method == 'POST':
+        #Article.objects.annotate(search=SearchVector('body_text') + SearchVector('blog__tagline'),).filter(search='Cheese')
+        #Articles.objects.filter(body_text__search='Cheese')
+        pass
 
 
 @api_view(['GET'])
@@ -110,11 +163,9 @@ def basket_data_save(request):
 
     #print(content)
     res = json.dumps({
-        'state':
-        'OK',
+        'state': 'OK',
         'reason': '',
-        'message':
-        'Thank you for your purchase'
+        'message': 'Thank you for your purchase'
     })
     return JsonResponse(res, safe=False)
 

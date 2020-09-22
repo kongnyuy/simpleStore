@@ -65,5 +65,6 @@ urlpatterns = [
     path('be/baskets/', all_baskets, name="baskets"),
     path('be/sarticles/', all_store_articles, name="sarticles"),
 
-    path(r'be/baskets/buy',basket_data_save, name="basket_data_save")
+    path(r'be/baskets/buy',basket_data_save, name="basket_data_save"),
+    path(r'search/', search_view, name="search_view")
 ]
