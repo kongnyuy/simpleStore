@@ -18,6 +18,20 @@ document.addEventListener('DOMContentLoaded', ev => {
     let cartTriggerBtn = document.querySelector('#modal-cart-trigger')
     let cartModal = document.querySelector('#cart-modal')
     let cartModalClose = document.querySelector('#cart-modal-close')
+
+    //server interact button s
+    let buyBtn = document.querySelector('#buy-basket'),
+        saveBtn = document.querySelector('#save-basket')
+
+    buyBtn.addEventListener('click', ev => {
+        console.log('buy items')
+    })
+
+    saveBtn.addEventListener('click', ev => {
+        console.log('save items')
+    })
+
+
     cartModalClose.addEventListener('click', ev => {
         if (cart_modal_open) {
             console.log('close cart dialog')
@@ -37,6 +51,7 @@ document.addEventListener('DOMContentLoaded', ev => {
                 cart_modal_open = true
                 updateCartCountView()
                 fillCartItemsView()
+                setTotalPrice()
             } else {
                 console.log('close cart dialog')
                 cartModal.classList.remove(isActive)
@@ -50,19 +65,14 @@ document.addEventListener('DOMContentLoaded', ev => {
     hideBtn.addEventListener('click', ev => {
         console.log('hide btn')
         let parent = ev.target.parentNode
-        if(parent){
+        if (parent) {
             parent.style.display = 'none'
         }
     })
 
-    //prefill cart view elments
-    function updateCartCountView() {
-        if (window.cart) {
-            let countDisp = document.querySelector('b.c-count')
-            countDisp.innerHTML = ""
-            countDisp.innerHTML = `${window.cart.getItemCount()}`
-        }
-    }
+    allTotalPriceElements = document.querySelectorAll('.total-cart-price')
+
+
 
 
     let citInc = document.querySelector('#cit-inc'),
@@ -81,28 +91,93 @@ document.addEventListener('DOMContentLoaded', ev => {
 
 })
 
+var allTotalPriceElements;
+
+function setTotalPrice() {
+    let formatedAmount = ''
+    if (Intl) {
+        var formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+
+            // These options are needed to round to whole numbers if that's what you want.
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        });
+
+        formatedAmount = formatter.format(window.cart.totalPrice); /* $2,500.00 */
+
+    }
+    allTotalPriceElements.forEach(x => {
+        if (window.cart) {
+            x.innerHTML = `${formatedAmount}`
+        }
+    })
+}
+
+//prefill cart view elments
+function updateCartCountView() {
+    if (window.cart) {
+        let countDisp = document.querySelectorAll('b.c-count')
+        countDisp.forEach(cd => {
+            cd.innerHTML = ""
+            cd.innerHTML = `${window.cart.getItemCount()}`
+        })
+    }
+}
+
+
 var cartItemTpl = `
 `
 
+function incrementCartItem({ id, max }) {
+    //{id: int}
+
+    if (window.cart) {
+        let cqty = window.cart.ids[id] || 1
+        console.info(`>>> increment1 ${id} | ${max} | current quantity: ${cqty}`)
+        if (cqty < max) {
+            //this.quantity++
+            window.cart.ids[id] += 1
+        } else {
+            iziToast.error({
+                title: 'MAX REACHED',
+                message: `We only have ${max} of those`,
+            });
+        }
+        //callback()
+        updateCartCountView()
+        fillCartItemsView()        
+        setTotalPrice()
+    }
+}
+
 function CartItem(item = { quantity: 0 }) {
     this.item = item
-    this.quantity = parseInt(this.item.quantity)
-
-    this.totalPrice = function () {
-        return this.quantity * (parseFloat(this.item.cost) || 0)
+    this.quantity =  0;
+    if(window.cart){
+        this.quantity = window.cart.ids[parseInt(item.id)]
     }
 
-   
+    this.totalPrice = function () {
+        let tp = this.quantity * (parseFloat(this.item.cost) || 0)
+        if (window.cart) {
+            window.cart.totalPrice += tp
+        }
+        return tp
+    }
+
+
     this.tpl = `<tr>
                             <td>${item.name}</td>
                             <td>${item.cost}</td>
-                            <td>${item.quantity}</td>
+                            <td>${this.quantity}</td>
                             <td>${this.totalPrice()}</td>
                             <td>${this.isAvail ? 'yes' : 'no'}</td>
                             <td>
                                 <div class="field has-addons">
                                     <p class="control">
-                                        <button class="button is-primary  is-small">                                            
+                                        <button onclick="incrementCartItem({id:${item.id}, max:${item.quantity}})" class="button is-primary  is-small">                                            
                                             <span>Add</span>
                                         </button>
                                     </p>
@@ -119,16 +194,16 @@ function CartItem(item = { quantity: 0 }) {
                                 </div>
                             </td>
 
-                        </tr>`        
+                        </tr>`
 
 
     this.getNode = function () {
         return this.tpl
     }
-    
 
 
-    this.emitCustomClickEvent = function(evName = '', data = {}){
+
+    this.emitCustomClickEvent = function (evName = '', data = {}) {
         const ev = new CustomEvent(evName, {
             bubbles: true,
             detail: { ...data }
@@ -138,7 +213,7 @@ function CartItem(item = { quantity: 0 }) {
     this.increment = function () {
         console.info('>>> increment')
         if (this.quantity < item.quantity) {
-            this.quantity++            
+            this.quantity++
         }
     }
 
@@ -153,14 +228,14 @@ function CartItem(item = { quantity: 0 }) {
 
 
     this.initHandlers = function () {
-/*         citDec.addEventListener('click', ev => {
-            console.log('deduct')
-            this.decrement()
-        })
-        citInc.addEventListener('click', ev => {
-            console.log('Increment')
-            this.increment()
-        }) */
+        /*         citDec.addEventListener('click', ev => {
+                    console.log('deduct')
+                    this.decrement()
+                })
+                citInc.addEventListener('click', ev => {
+                    console.log('Increment')
+                    this.increment()
+                }) */
     }
 
     this.initHandlers()
@@ -173,41 +248,69 @@ function fillCartItemsView() {
     //let area = document.querySelector('.mcb-articles')
     let area = document.querySelector('tbody#items-table-body')
     console.log(area)
+    console.log(window.cart.distinctItems())
     if (area) {
         //area.innerHTML = ''
         if (window.cart) {
             let out = '', i = 0
-            window.cart.getItems().forEach((entry) => {
-                i++;
-                ct = CartItem(entry)
-                console.log(ct)
-                out += ct.getNode()
-            })
-            console.log(out)
-            area.innerHTML = out
-        }else{
+            if (prevCount < window.cart.getItemCount()) {
+                window.cart.totalPrice = 0
+                window.cart.getItems().forEach((entry) => {
+                    i++;
+                    ct = CartItem(entry)
+                    console.log(ct)
+                    out += ct.getNode()
+                })
+                console.log(out)
+                area.innerHTML = out
+            } else if (prevCount > window.cart.getItemCount()) {
+                window.cart.totalPrice = 0
+                window.cart.getItems().forEach((entry) => {
+                    i++;
+                    ct = CartItem(entry)
+                    console.log(ct)
+                    out += ct.getNode()
+                })
+                console.log(out)
+                area.innerHTML = out
+            }
+        } else {
             console.error('not there')
         }
     }
 }
 
+var prevCount = 0
+
 
 function Cart() {
-    this.items = new Set()
+    this.items = new Array()
+    this.ids = {}
     this.user = undefined
     this.session = undefined
+    this.totalPrice = 0;
 
-    this.getItemCount = () => this.items.size;
+    this.getItemCount = () => this.items.length;
 
     this.getItems = () => this.items;
     this.getUser = () => this.user
     this.getSession = () => this.session
 
     this.addItem = item => {
-        this.items.add(item)
+        this.items.push(item)
     }
     this.browserStorage = (win) => {
         //TODO
+    }
+
+    //Uneficient algorithm
+    this.distinctItems = function () {
+        const resutls = Array.from(new Set(this.items.map(i => i.id)))
+            .map(id => {
+                return (this.items.find(x => x.id === id))
+
+
+            })
     }
 }
 

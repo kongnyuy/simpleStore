@@ -102,34 +102,7 @@
                             <button class="delete hide-btn"></button>
                             <p>Add items to your basket to see them appear here. simply click on them</p>
                         </div>
-                        <tr>
-                            <td>Keyboard static</td>
-                            <td>23</td>
-                            <td></td>
-                            <td>3</td>
-                            <td>68</td>
-                            <td>
-                                <div class="field has-addons">
-                                    <p class="control">
-                                        <button class="button is-primary  is-small">
-                                            <span>Add</span>
-                                        </button>
-                                    </p>
-                                    <p class="control">
-                                        <button class="button  is-small">
-                                            <span>Deduct</span>
-                                        </button>
-                                    </p>
-                                    <p class="control">
-                                        <button class="button is-danger is-small">
-                                            <span>Delete</span>
-                                        </button>
-                                    </p>
-                                </div>
-                            </td>
-
-                        </tr>
-
+                        
 
                     </tbody>
                     <tfoot>
@@ -138,12 +111,16 @@
                 </table>
             </div>
             <aside class="mcb-agg-calc column is-one-thirds">
-                calc
+                <h4 class="title is-4">Aggregate sum</h4>
+                <p>Article count : <b class="c-count">_</b></p>
+                <p>Total price : <b class="total-cart-price"></b></p>
             </aside>
         </section>
         <footer class="modal-card-foot">
-            <button class="button is-success">Buy</button>
-            <!-- <button id class="button">Cancel</button> -->
+            <button id="buy-basket" class="button is-success">Buy</button>
+            {% if user.is_authenticated %}
+            <button id="save-basket" class="button">Save for later</button>
+            {% endif %}
         </footer>
     </div>
 </div>
@@ -155,7 +132,16 @@
     function addArticleToCart(upitem = {}) {
         if (window.cart) {
             //pitem = JSON.parse(upiem)
-            window.cart.addItem(upitem)
+            if (!window.cart.ids.hasOwnProperty(parseInt(upitem.id))) {
+                console.log(`<<<< hase ${upitem.id}`)
+                window.cart.addItem(upitem)
+                window.cart.ids[parseInt(upitem.id)] = 1
+            }else{
+                iziToast.success({
+                    title: 'OK',
+                    message: 'Article added to cart already',
+                });
+            }
         } else {
             console.error('No cart detected. cart issues, please try again')
         }
