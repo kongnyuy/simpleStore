@@ -12,5 +12,5 @@ A Simple web application that provides vendors a digital interface for selling t
 
 ### Application deployment guidelines
 For this, visit the necessary module and follow the corresponding readme file
-Example: **./server/readme.md** -> Server deployment instructions
+Example: **[./server/readme.md](./server/readme.md)** -> Server deployment instructions
 
